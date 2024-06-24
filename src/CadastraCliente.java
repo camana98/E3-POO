@@ -8,15 +8,39 @@ public class CadastraCliente {
     private JPanel mainPanel;
     private JTextField tfCodigo;
     private JTextField tfNome;
+    private JTextField tfCpf;
+    private JTextField tfAno;
     private JTextArea taMensagens;
     private JButton btnCadastrar;
     private JButton btnLimpar;
     private JButton btnMostrarClientes;
     private JButton btnFechar;
+    private JRadioButton rbIndividual;
+    private JRadioButton rbEmpresarial;
     private Map<Integer, Cliente> clientes;
 
     public CadastraCliente() {
         clientes = new TreeMap<>();
+
+        ButtonGroup grupo = new ButtonGroup();
+        grupo.add(rbIndividual);
+        grupo.add(rbEmpresarial);
+
+        rbIndividual.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tfCpf.setEnabled(true);
+                tfAno.setEnabled(false);
+            }
+        });
+
+        rbEmpresarial.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tfCpf.setEnabled(false);
+                tfAno.setEnabled(true);
+            }
+        });
 
         btnCadastrar.addActionListener(new ActionListener() {
             @Override
@@ -55,18 +79,30 @@ public class CadastraCliente {
             if (clientes.containsKey(codigo)) {
                 taMensagens.setText("Erro: Código de cliente já existente.");
             } else {
-                Cliente cliente = new Cliente(codigo, nome);
+                Cliente cliente;
+                if (rbIndividual.isSelected()) {
+                    String cpf = tfCpf.getText().trim();
+                    cliente = new Individual(codigo, nome, cpf);
+                } else if (rbEmpresarial.isSelected()) {
+                    int ano = Integer.parseInt(tfAno.getText().trim());
+                    cliente = new Empresarial(codigo, nome, ano);
+                } else {
+                    taMensagens.setText("Erro: Selecione um tipo de cliente.");
+                    return;
+                }
                 clientes.put(codigo, cliente);
                 taMensagens.setText("Cliente cadastrado com sucesso.");
             }
         } catch (NumberFormatException e) {
-            taMensagens.setText("Erro: Código deve ser um número inteiro.");
+            taMensagens.setText("Erro: Código e ano devem ser números inteiros.");
         }
     }
 
     private void limparCampos() {
         tfCodigo.setText("");
         tfNome.setText("");
+        tfCpf.setText("");
+        tfAno.setText("");
         taMensagens.setText("");
     }
 

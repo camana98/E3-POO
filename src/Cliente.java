@@ -1,6 +1,6 @@
-class Cliente {
-    private int codigo;
-    private String nome;
+abstract class Cliente {
+    protected int codigo;
+    protected String nome;
 
     public Cliente(int codigo, String nome) {
         this.codigo = codigo;
@@ -14,6 +14,8 @@ class Cliente {
     public String getNome() {
         return nome;
     }
+
+    public abstract double calculaDesconto(int quantidadeRobos);
 
     @Override
     public String toString() {
