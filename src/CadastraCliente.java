@@ -81,7 +81,7 @@ public class CadastraCliente {
             } else {
                 Cliente cliente;
                 if (rbIndividual.isSelected()) {
-                    String cpf = tfCpf.getText().trim();
+                    int cpf = Integer.parseInt(tfCpf.getText().trim());
                     cliente = new Individual(codigo, nome, cpf);
                 } else if (rbEmpresarial.isSelected()) {
                     int ano = Integer.parseInt(tfAno.getText().trim());
@@ -94,7 +94,7 @@ public class CadastraCliente {
                 taMensagens.setText("Cliente cadastrado com sucesso.");
             }
         } catch (NumberFormatException e) {
-            taMensagens.setText("Erro: Código e ano devem ser números inteiros.");
+            taMensagens.setText("Erro: Código, ano e CPF devem ser números inteiros.");
         }
     }
 

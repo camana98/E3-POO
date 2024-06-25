@@ -1,12 +1,12 @@
 class Individual extends Cliente {
-    private String cpf;
+    private int cpf;
 
-    public Individual(int codigo, String nome, String cpf) {
+    public Individual(int codigo, String nome, int cpf) {
         super(codigo, nome);
         this.cpf = cpf;
     }
 
-    public String getCpf() {
+    public int getCpf() {
         return cpf;
     }
 
